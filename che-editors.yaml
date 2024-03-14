@@ -1,0 +1,920 @@
+version: 2.0.0
+editors:
+  - schemaVersion: 2.2.2
+    metadata:
+      name: igabriel85/jupyter-ide/1.0.0
+      displayName: MAAP Jupyter Lab IDE
+      description: Jupyter Lab IDE for MAAP
+      icon: /images/notebook.svg
+      attributes:
+        publisher: igabriel85
+        version: 1.0.0
+        title: Jupyter Lab IDE for MAAP
+        repository: 'https://github.com/igabriel85/maap-jupyter-ide'
+        firstPublicationDate: '2024-03-12'
+      components:
+        - name: jupyter-ide
+          container:
+            image: 'quay.io/igabriel185/maap-jupyter-ide:latest'
+            env:
+              - name: JUPYTER_NOTEBOOK_DIR
+                value: /projects
+            mountSources: true
+            memoryLimit: 512M
+            endpoints:
+              - name: jupyter
+                targetPort: 3100
+                exposure: public
+                protocol: https
+                attributes:
+                  type: main
+            attributes:
+              ports:
+                - exposedPort: 3100
+  - schemaVersion: 2.2.2
+    metadata:
+      name: ws-skeleton/jupyter/5.7.0
+      displayName: Jupyter Notebook
+      description: Jupyter Notebook for Eclipse Che
+      icon: /images/notebook.svg
+      attributes:
+        publisher: ws-skeleton
+        version: 5.7.0
+        title: Jupyter Notebook for Eclipse Che
+        repository: 'https://github.com/ws-skeleton/che-editor-jupyter/'
+        firstPublicationDate: '2019-02-05'
+    components:
+      - name: jupyter-notebook
+        container:
+          image: 'docker.io/ksmster/che-editor-jupyter:5.7.0'
+          env:
+            - name: JUPYTER_NOTEBOOK_DIR
+              value: /projects
+          mountSources: true
+          memoryLimit: 512M
+          endpoints:
+            - name: jupyter
+              targetPort: 8888
+              exposure: public
+              protocol: https
+              attributes:
+                type: main
+        attributes:
+          ports:
+            - exposedPort: 8888
+  - schemaVersion: 2.2.2
+    metadata:
+      name: dirigiblelabs/dirigible/3.4.0
+      displayName: Eclipse Dirigible
+      description: Eclipse Dirigible for Eclipse Che
+      icon: /images/dirigible.svg
+      attributes:
+        publisher: dirigiblelabs
+        version: 3.4.0
+        title: Eclipse Dirigible for Eclipse Che
+        repository: 'https://github.com/dirigiblelabs/dirigible-che-editor-plugin/'
+        firstPublicationDate: '2019-02-05'
+    components:
+      - name: eclipse-dirigible
+        container:
+          image: 'docker.io/dirigiblelabs/dirigible-openshift:3.4.0'
+          env:
+            - name: DIRIGIBLE_DATABASE_PROVIDER
+              value: local
+            - name: DIRIGIBLE_REPOSITORY_LOCAL_ROOT_FOLDER
+              value: /projects/dirigible/repository
+            - name: DIRIGIBLE_REPOSITORY_LOCAL_ROOT_FOLDER_IS_ABSOLUTE
+              value: 'true'
+            - name: DIRIGIBLE_REPOSITORY_SEARCH_ROOT_FOLDER
+              value: /projects/dirigible/repository
+            - name: DIRIGIBLE_REPOSITORY_SEARCH_ROOT_FOLDER_IS_ABSOLUTE
+              value: 'true'
+            - name: DIRIGIBLE_CMS_INTERNAL_ROOT_FOLDER
+              value: /projects/dirigible/cms
+            - name: DIRIGIBLE_CMS_INTERNAL_ROOT_FOLDER_IS_ABSOLUTE
+              value: 'true'
+            - name: DIRIGIBLE_DATABASE_H2_ROOT_FOLDER_DEFAULT
+              value: /projects/dirigible/h2
+            - name: DIRIGIBLE_DATABASE_H2_URL
+              value: 'jdbc:h2:/projects/dirigible/h2'
+            - name: DIRIGIBLE_OPERATIONS_LOGS_ROOT_FOLDER_DEFAULT
+              value: /usr/local/tomcat/logs
+          mountSources: true
+          memoryLimit: 1024M
+          endpoints:
+            - name: dirigible
+              attributes:
+                type: main
+              targetPort: 8080
+              exposure: public
+              protocol: https
+        attributes:
+          ports:
+            - exposedPort: 8080
+  - schemaVersion: 2.2.2
+    metadata:
+      name: ws-skeleton/eclipseide/4.9.0
+      displayName: Eclipse IDE with Broadway
+      description: Eclipse IDE (in browser using Broadway) for Eclipse Che
+      icon: /images/eclipse-ide.svg
+      attributes:
+        publisher: ws-skeleton
+        version: 4.9.0
+        title: Eclipse IDE (in browser using Broadway) for Eclipse Che
+        repository: 'https://github.com/ws-skeleton/che-editor-eclipseide/'
+        firstPublicationDate: '2019-02-05'
+    components:
+      - name: eclipse-ide
+        container:
+          image: docker.io/wsskeleton/eclipse-broadway
+          mountSources: true
+          memoryLimit: 2048M
+          endpoints:
+            - name: eclipse-ide
+              targetPort: 5000
+              exposure: public
+              protocol: https
+              attributes:
+                type: main
+        attributes:
+          ports:
+            - exposedPort: 5000
+  - schemaVersion: 2.2.2
+    metadata:
+      name: cdr/code-server/3.6.2
+      displayName: VS Code via code-server
+      description: >-
+        An open source distribution of Visual Studio Code (code-server) for
+        Eclipse Che
+      icon: /images/vscode.svg
+      attributes:
+        publisher: cdr
+        version: 3.6.2
+        title: >-
+          An open source distribution of Visual Studio Code (code-server) for
+          Eclipse Che
+        repository: 'https://github.com/cdr/code-server'
+        firstPublicationDate: '2020-11-03'
+    components:
+      - name: code-server
+        container:
+          image: 'codercom/code-server:3.6.2'
+          volumeMounts:
+            - name: user-data
+              path: /home/coder/.local/share/code-server
+          mountSources: true
+          memoryLimit: 1024M
+          endpoints:
+            - name: code-server
+              targetPort: 8080
+              exposure: public
+              protocol: https
+              attributes:
+                type: main
+        attributes:
+          ports:
+            - exposedPort: 8080
+      - name: user-data
+        volume: {}
+  - schemaVersion: 2.2.2
+    metadata:
+      name: che-incubator/che-code/insiders
+      displayName: VS Code - Open Source
+      description: >-
+        Microsoft Visual Studio Code - Open Source IDE for Eclipse Che -
+        Insiders build
+      icon: /images/vscode.svg
+      attributes:
+        publisher: che-incubator
+        version: insiders
+        title: >-
+          Microsoft Visual Studio Code - Open Source IDE for Eclipse Che -
+          Insiders build
+        repository: 'https://github.com/che-incubator/che-code'
+        firstPublicationDate: '2021-10-31'
+    commands:
+      - id: init-container-command
+        apply:
+          component: che-code-injector
+      - id: init-che-code-command
+        exec:
+          component: che-code-runtime-description
+          commandLine: >-
+            nohup /checode/entrypoint-volume.sh > /checode/entrypoint-logs.txt
+            2>&1 &
+    events:
+      preStart:
+        - init-container-command
+      postStart:
+        - init-che-code-command
+    components:
+      - name: che-code-injector
+        container:
+          image: 'quay.io/che-incubator/che-code:insiders'
+          command:
+            - /entrypoint-init-container.sh
+          volumeMounts:
+            - name: checode
+              path: /checode
+          memoryLimit: 256Mi
+          memoryRequest: 32Mi
+          cpuLimit: 500m
+          cpuRequest: 30m
+      - name: che-code-runtime-description
+        container:
+          image: 'quay.io/devfile/universal-developer-image:latest'
+          memoryLimit: 1024Mi
+          memoryRequest: 256Mi
+          cpuLimit: 500m
+          cpuRequest: 30m
+          volumeMounts:
+            - name: checode
+              path: /checode
+          endpoints:
+            - name: che-code
+              attributes:
+                type: main
+                cookiesAuthEnabled: true
+                discoverable: false
+                urlRewriteSupported: true
+              targetPort: 3100
+              exposure: public
+              secure: true
+              protocol: https
+            - name: code-redirect-1
+              targetPort: 13131
+              exposure: public
+              protocol: https
+              attributes:
+                discoverable: false
+                urlRewriteSupported: false
+            - name: code-redirect-2
+              targetPort: 13132
+              exposure: public
+              protocol: https
+              attributes:
+                discoverable: false
+                urlRewriteSupported: false
+            - name: code-redirect-3
+              targetPort: 13133
+              exposure: public
+              protocol: https
+              attributes:
+                discoverable: false
+                urlRewriteSupported: false
+        attributes:
+          app.kubernetes.io/component: che-code-runtime
+          app.kubernetes.io/part-of: che-code.eclipse.org
+          controller.devfile.io/container-contribution: true
+      - name: checode
+        volume: {}
+  - schemaVersion: 2.2.2
+    metadata:
+      name: che-incubator/che-code/7.82.0
+      displayName: VS Code - Open Source
+      description: Microsoft Visual Studio Code - Open Source IDE for Eclipse Che
+      icon: /images/vscode.svg
+      attributes:
+        publisher: che-incubator
+        version: 7.82.0
+        title: Microsoft Visual Studio Code - Open Source IDE for Eclipse Che
+        repository: 'https://github.com/che-incubator/che-code'
+        firstPublicationDate: '2021-10-31'
+    commands:
+      - id: init-container-command
+        apply:
+          component: che-code-injector
+      - id: init-che-code-command
+        exec:
+          component: che-code-runtime-description
+          commandLine: >-
+            nohup /checode/entrypoint-volume.sh > /checode/entrypoint-logs.txt
+            2>&1 &
+    events:
+      preStart:
+        - init-container-command
+      postStart:
+        - init-che-code-command
+    components:
+      - name: che-code-injector
+        container:
+          image: 'quay.io/che-incubator/che-code:7.82.0'
+          command:
+            - /entrypoint-init-container.sh
+          volumeMounts:
+            - name: checode
+              path: /checode
+          memoryLimit: 256Mi
+          memoryRequest: 32Mi
+          cpuLimit: 500m
+          cpuRequest: 30m
+      - name: che-code-runtime-description
+        container:
+          image: 'quay.io/devfile/universal-developer-image:latest'
+          memoryLimit: 1024Mi
+          memoryRequest: 256Mi
+          cpuLimit: 500m
+          cpuRequest: 30m
+          volumeMounts:
+            - name: checode
+              path: /checode
+          endpoints:
+            - name: che-code
+              attributes:
+                type: main
+                cookiesAuthEnabled: true
+                discoverable: false
+                urlRewriteSupported: true
+              targetPort: 3100
+              exposure: public
+              secure: true
+              protocol: https
+            - name: code-redirect-1
+              targetPort: 13131
+              exposure: public
+              protocol: https
+              attributes:
+                discoverable: false
+                urlRewriteSupported: false
+            - name: code-redirect-2
+              targetPort: 13132
+              exposure: public
+              protocol: https
+              attributes:
+                discoverable: false
+                urlRewriteSupported: false
+            - name: code-redirect-3
+              targetPort: 13133
+              exposure: public
+              protocol: https
+              attributes:
+                discoverable: false
+                urlRewriteSupported: false
+        attributes:
+          app.kubernetes.io/component: che-code-runtime
+          app.kubernetes.io/part-of: che-code.eclipse.org
+          controller.devfile.io/container-contribution: true
+      - name: checode
+        volume: {}
+  - schemaVersion: 2.2.2
+    metadata:
+      name: che-incubator/che-idea/next
+      displayName: IntelliJ IDEA Community
+      description: JetBrains IntelliJ IDEA Community IDE for Eclipse Che - next
+      icon: /images/intellij-idea.svg
+      attributes:
+        publisher: che-incubator
+        version: next
+        title: JetBrains IntelliJ IDEA Community IDE for Eclipse Che - next
+        repository: 'https://github.com/che-incubator/jetbrains-editor-images'
+        firstPublicationDate: '2022-01-11'
+    commands:
+      - id: init-container-command
+        apply:
+          component: che-idea-injector
+      - id: init-che-idea-command
+        exec:
+          component: che-idea-runtime-description
+          commandLine: >-
+            nohup /projector/entrypoint-volume.sh >
+            /projector/entrypoint-logs.txt 2>&1 &
+    events:
+      preStart:
+        - init-container-command
+      postStart:
+        - init-che-idea-command
+    components:
+      - name: che-idea-runtime-description
+        container:
+          image: 'quay.io/devfile/universal-developer-image:latest'
+          env:
+            - name: PROJECTOR_ASSEMBLY_DIR
+              value: /projector
+            - name: PROJECTOR_CONFIG_DIR
+              value: /home/user/.jetbrains
+          volumeMounts:
+            - name: projector-volume
+              path: /projector
+            - name: projector-configuration
+              path: /home/user/.jetbrains
+            - name: projector-java-configuration
+              path: /home/user/.java
+          memoryLimit: 6144Mi
+          memoryRequest: 2048Mi
+          cpuLimit: 2000m
+          cpuRequest: 1500m
+          endpoints:
+            - name: intellij
+              attributes:
+                type: main
+                cookiesAuthEnabled: true
+                discoverable: false
+                urlRewriteSupported: true
+              targetPort: 8887
+              exposure: public
+              path: /?backgroundColor=434343&wss
+              secure: true
+              protocol: https
+            - name: intellij-redirect-1
+              targetPort: 13131
+              exposure: public
+              protocol: https
+              attributes:
+                discoverable: false
+                urlRewriteSupported: false
+            - name: intellij-redirect-2
+              targetPort: 13132
+              exposure: public
+              protocol: https
+              attributes:
+                discoverable: false
+                urlRewriteSupported: false
+            - name: intellij-redirect-3
+              targetPort: 13133
+              exposure: public
+              protocol: https
+              attributes:
+                discoverable: false
+                urlRewriteSupported: false
+        attributes:
+          app.kubernetes.io/component: che-idea-runtime
+          app.kubernetes.io/part-of: che-idea.eclipse.org
+          controller.devfile.io/container-contribution: true
+      - name: projector-volume
+        volume: {}
+      - name: projector-configuration
+        volume: {}
+      - name: projector-java-configuration
+        volume: {}
+      - name: che-idea-injector
+        container:
+          image: 'quay.io/che-incubator/che-idea:next'
+          command:
+            - /projector/entrypoint-init-container.sh
+          env:
+            - name: PROJECTOR_VOLUME_MOUNT
+              value: /projector-volume
+            - name: PROJECTOR_ASSEMBLY_DIR
+              value: /projector
+          volumeMounts:
+            - name: projector-volume
+              path: /projector-volume
+          memoryLimit: 128Mi
+          memoryRequest: 32Mi
+          cpuLimit: 500m
+          cpuRequest: 30m
+  - schemaVersion: 2.2.2
+    metadata:
+      name: che-incubator/che-idea/latest
+      displayName: IntelliJ IDEA Community
+      description: JetBrains IntelliJ IDEA Community IDE for Eclipse Che
+      icon: /images/intellij-idea.svg
+      attributes:
+        publisher: che-incubator
+        version: latest
+        title: JetBrains IntelliJ IDEA Community IDE for Eclipse Che
+        repository: 'https://github.com/che-incubator/jetbrains-editor-images'
+        firstPublicationDate: '2022-01-11'
+    commands:
+      - id: init-container-command
+        apply:
+          component: che-idea-injector
+      - id: init-che-idea-command
+        exec:
+          component: che-idea-runtime-description
+          commandLine: >-
+            nohup /projector/entrypoint-volume.sh >
+            /projector/entrypoint-logs.txt 2>&1 &
+    events:
+      preStart:
+        - init-container-command
+      postStart:
+        - init-che-idea-command
+    components:
+      - name: che-idea-runtime-description
+        container:
+          image: 'quay.io/devfile/universal-developer-image:latest'
+          env:
+            - name: PROJECTOR_ASSEMBLY_DIR
+              value: /projector
+            - name: PROJECTOR_CONFIG_DIR
+              value: /home/user/.jetbrains
+          volumeMounts:
+            - name: projector-volume
+              path: /projector
+            - name: projector-configuration
+              path: /home/user/.jetbrains
+            - name: projector-java-configuration
+              path: /home/user/.java
+          memoryLimit: 6144Mi
+          memoryRequest: 2048Mi
+          cpuLimit: 2000m
+          cpuRequest: 1500m
+          endpoints:
+            - name: intellij
+              attributes:
+                type: main
+                cookiesAuthEnabled: true
+                discoverable: false
+                urlRewriteSupported: true
+              targetPort: 8887
+              exposure: public
+              path: /?backgroundColor=434343&wss
+              secure: true
+              protocol: https
+            - name: intellij-redirect-1
+              targetPort: 13131
+              exposure: public
+              protocol: https
+              attributes:
+                discoverable: false
+                urlRewriteSupported: false
+            - name: intellij-redirect-2
+              targetPort: 13132
+              exposure: public
+              protocol: https
+              attributes:
+                discoverable: false
+                urlRewriteSupported: false
+            - name: intellij-redirect-3
+              targetPort: 13133
+              exposure: public
+              protocol: https
+              attributes:
+                discoverable: false
+                urlRewriteSupported: false
+        attributes:
+          app.kubernetes.io/component: che-idea-runtime
+          app.kubernetes.io/part-of: che-idea.eclipse.org
+          controller.devfile.io/container-contribution: true
+      - name: projector-volume
+        volume: {}
+      - name: projector-configuration
+        volume: {}
+      - name: projector-java-configuration
+        volume: {}
+      - name: che-idea-injector
+        container:
+          image: 'quay.io/che-incubator/che-idea:latest'
+          command:
+            - /projector/entrypoint-init-container.sh
+          env:
+            - name: PROJECTOR_VOLUME_MOUNT
+              value: /projector-volume
+            - name: PROJECTOR_ASSEMBLY_DIR
+              value: /projector
+          volumeMounts:
+            - name: projector-volume
+              path: /projector-volume
+          memoryLimit: 128Mi
+          memoryRequest: 32Mi
+          cpuLimit: 500m
+          cpuRequest: 30m
+  - schemaVersion: 2.2.2
+    metadata:
+      name: che-incubator/che-pycharm/next
+      displayName: JetBrains PyCharm Community
+      description: JetBrains PyCharm Community IDE for Eclipse Che - next
+      icon: /images/pycharm.svg
+      attributes:
+        publisher: che-incubator
+        version: next
+        title: JetBrains PyCharm Community IDE for Eclipse Che - next
+        repository: 'https://github.com/che-incubator/jetbrains-editor-images'
+        firstPublicationDate: '2021-10-06'
+    commands:
+      - id: init-container-command
+        apply:
+          component: che-pycharm-injector
+      - id: init-che-pycharm-command
+        exec:
+          component: che-pycharm-runtime-description
+          commandLine: >-
+            nohup /projector/entrypoint-volume.sh >
+            /projector/entrypoint-logs.txt 2>&1 &
+    events:
+      preStart:
+        - init-container-command
+      postStart:
+        - init-che-pycharm-command
+    components:
+      - name: che-pycharm-runtime-description
+        container:
+          image: 'quay.io/devfile/universal-developer-image:latest'
+          env:
+            - name: PROJECTOR_ASSEMBLY_DIR
+              value: /projector
+            - name: PROJECTOR_CONFIG_DIR
+              value: /home/user/.jetbrains
+          volumeMounts:
+            - name: projector-volume
+              path: /projector
+            - name: projector-configuration
+              path: /home/user/.jetbrains
+            - name: projector-java-configuration
+              path: /home/user/.java
+          memoryLimit: 6144Mi
+          memoryRequest: 2048Mi
+          cpuLimit: 2000m
+          cpuRequest: 1500m
+          endpoints:
+            - name: intellij
+              attributes:
+                type: main
+                cookiesAuthEnabled: true
+                discoverable: false
+                urlRewriteSupported: true
+              targetPort: 8887
+              exposure: public
+              path: /?backgroundColor=434343&wss
+              secure: true
+              protocol: https
+            - name: intellij-redirect-1
+              targetPort: 13131
+              exposure: public
+              protocol: https
+              attributes:
+                discoverable: false
+                urlRewriteSupported: false
+            - name: intellij-redirect-2
+              targetPort: 13132
+              exposure: public
+              protocol: https
+              attributes:
+                discoverable: false
+                urlRewriteSupported: false
+            - name: intellij-redirect-3
+              targetPort: 13133
+              exposure: public
+              protocol: https
+              attributes:
+                discoverable: false
+                urlRewriteSupported: false
+        attributes:
+          app.kubernetes.io/component: che-pycharm-runtime
+          app.kubernetes.io/part-of: che-pycharm.eclipse.org
+          controller.devfile.io/container-contribution: true
+      - name: projector-volume
+        volume: {}
+      - name: projector-configuration
+        volume: {}
+      - name: projector-java-configuration
+        volume: {}
+      - name: che-pycharm-injector
+        container:
+          image: 'quay.io/che-incubator/che-pycharm:next'
+          command:
+            - /projector/entrypoint-init-container.sh
+          env:
+            - name: PROJECTOR_VOLUME_MOUNT
+              value: /projector-volume
+            - name: PROJECTOR_ASSEMBLY_DIR
+              value: /projector
+          volumeMounts:
+            - name: projector-volume
+              path: /projector-volume
+          memoryLimit: 128Mi
+          memoryRequest: 32Mi
+          cpuLimit: 500m
+          cpuRequest: 30m
+  - schemaVersion: 2.2.2
+    metadata:
+      name: che-incubator/che-pycharm/latest
+      displayName: JetBrains PyCharm Community
+      description: JetBrains PyCharm Community IDE for Eclipse Che
+      icon: /images/pycharm.svg
+      attributes:
+        publisher: che-incubator
+        version: latest
+        title: JetBrains PyCharm Community IDE for Eclipse Che
+        repository: 'https://github.com/che-incubator/jetbrains-editor-images'
+        firstPublicationDate: '2021-10-06'
+    commands:
+      - id: init-container-command
+        apply:
+          component: che-pycharm-injector
+      - id: init-che-pycharm-command
+        exec:
+          component: che-pycharm-runtime-description
+          commandLine: >-
+            nohup /projector/entrypoint-volume.sh >
+            /projector/entrypoint-logs.txt 2>&1 &
+    events:
+      preStart:
+        - init-container-command
+      postStart:
+        - init-che-pycharm-command
+    components:
+      - name: che-pycharm-runtime-description
+        container:
+          image: 'quay.io/devfile/universal-developer-image:latest'
+          env:
+            - name: PROJECTOR_ASSEMBLY_DIR
+              value: /projector
+            - name: PROJECTOR_CONFIG_DIR
+              value: /home/user/.jetbrains
+          volumeMounts:
+            - name: projector-volume
+              path: /projector
+            - name: projector-configuration
+              path: /home/user/.jetbrains
+            - name: projector-java-configuration
+              path: /home/user/.java
+          memoryLimit: 6144Mi
+          memoryRequest: 2048Mi
+          cpuLimit: 2000m
+          cpuRequest: 1500m
+          endpoints:
+            - name: intellij
+              attributes:
+                type: main
+                cookiesAuthEnabled: true
+                discoverable: false
+                urlRewriteSupported: true
+              targetPort: 8887
+              exposure: public
+              path: /?backgroundColor=434343&wss
+              secure: true
+              protocol: https
+            - name: intellij-redirect-1
+              targetPort: 13131
+              exposure: public
+              protocol: https
+              attributes:
+                discoverable: false
+                urlRewriteSupported: false
+            - name: intellij-redirect-2
+              targetPort: 13132
+              exposure: public
+              protocol: https
+              attributes:
+                discoverable: false
+                urlRewriteSupported: false
+            - name: intellij-redirect-3
+              targetPort: 13133
+              exposure: public
+              protocol: https
+              attributes:
+                discoverable: false
+                urlRewriteSupported: false
+        attributes:
+          app.kubernetes.io/component: che-pycharm-runtime
+          app.kubernetes.io/part-of: che-pycharm.eclipse.org
+          controller.devfile.io/container-contribution: true
+      - name: projector-volume
+        volume: {}
+      - name: projector-configuration
+        volume: {}
+      - name: projector-java-configuration
+        volume: {}
+      - name: che-pycharm-injector
+        container:
+          image: 'quay.io/che-incubator/che-pycharm:latest'
+          command:
+            - /projector/entrypoint-init-container.sh
+          env:
+            - name: PROJECTOR_VOLUME_MOUNT
+              value: /projector-volume
+            - name: PROJECTOR_ASSEMBLY_DIR
+              value: /projector
+          volumeMounts:
+            - name: projector-volume
+              path: /projector-volume
+          memoryLimit: 128Mi
+          memoryRequest: 32Mi
+          cpuLimit: 500m
+          cpuRequest: 30m
+  - schemaVersion: 2.2.2
+    metadata:
+      name: che-incubator/che-idea-server/next
+      displayName: IntelliJ IDEA Ultimate (desktop)
+      description: JetBrains IntelliJ IDEA Ultimate dev server for Eclipse Che - next
+      icon: /images/intellij-idea.svg
+      attributes:
+        publisher: che-incubator
+        version: next
+        title: JetBrains IntelliJ IDEA Ultimate dev server for Eclipse Che - next
+        repository: 'https://github.com/che-incubator/che-idea-dev-server'
+        firstPublicationDate: '2023-30-11'
+    commands:
+      - id: inject-editor
+        apply:
+          component: editor-injector
+      - id: start-idea-server
+        exec:
+          component: editor-runtime
+          commandLine: >-
+            nohup /idea-server/entrypoint-volume.sh > /idea-server/std.out 2>&1
+            &
+    events:
+      preStart:
+        - inject-editor
+      postStart:
+        - start-idea-server
+    components:
+      - name: idea-server
+        volume: {}
+      - name: editor-injector
+        container:
+          image: 'quay.io/che-incubator/che-idea-dev-server:next'
+          command:
+            - /entrypoint-init-container.sh
+          volumeMounts:
+            - name: idea-server
+              path: /idea-server
+          memoryLimit: 256Mi
+          memoryRequest: 32Mi
+          cpuLimit: 500m
+          cpuRequest: 30m
+      - name: editor-runtime
+        container:
+          image: 'quay.io/devfile/universal-developer-image:latest'
+          memoryLimit: 6144Mi
+          memoryRequest: 2048Mi
+          cpuLimit: 2000m
+          cpuRequest: 1500m
+          volumeMounts:
+            - name: idea-server
+              path: /idea-server
+          endpoints:
+            - name: idea-server
+              attributes:
+                type: main
+                cookiesAuthEnabled: true
+                discoverable: false
+                urlRewriteSupported: true
+              targetPort: 3400
+              exposure: public
+              secure: true
+              protocol: https
+        attributes:
+          app.kubernetes.io/component: editor-runtime
+          app.kubernetes.io/part-of: idea-server.eclipse.org
+          controller.devfile.io/container-contribution: true
+  - schemaVersion: 2.2.2
+    metadata:
+      name: che-incubator/che-idea-server/latest
+      displayName: IntelliJ IDEA Ultimate (desktop)
+      description: JetBrains IntelliJ IDEA Ultimate dev server for Eclipse Che - latest
+      icon: /images/intellij-idea.svg
+      attributes:
+        publisher: che-incubator
+        version: latest
+        title: JetBrains IntelliJ IDEA Ultimate dev server for Eclipse Che - latest
+        repository: 'https://github.com/che-incubator/che-idea-dev-server'
+        firstPublicationDate: '2023-30-11'
+    commands:
+      - id: inject-editor
+        apply:
+          component: editor-injector
+      - id: start-idea-server
+        exec:
+          component: editor-runtime
+          commandLine: >-
+            nohup /idea-server/entrypoint-volume.sh > /idea-server/std.out 2>&1
+            &
+    events:
+      preStart:
+        - inject-editor
+      postStart:
+        - start-idea-server
+    components:
+      - name: idea-server
+        volume: {}
+      - name: editor-injector
+        container:
+          image: 'quay.io/che-incubator/che-idea-dev-server:latest'
+          command:
+            - /entrypoint-init-container.sh
+          volumeMounts:
+            - name: idea-server
+              path: /idea-server
+          memoryLimit: 256Mi
+          memoryRequest: 32Mi
+          cpuLimit: 500m
+          cpuRequest: 30m
+      - name: editor-runtime
+        container:
+          image: 'quay.io/devfile/universal-developer-image:latest'
+          memoryLimit: 6144Mi
+          memoryRequest: 2048Mi
+          cpuLimit: 2000m
+          cpuRequest: 1500m
+          volumeMounts:
+            - name: idea-server
+              path: /idea-server
+          endpoints:
+            - name: idea-server
+              attributes:
+                type: main
+                cookiesAuthEnabled: true
+                discoverable: false
+                urlRewriteSupported: true
+              targetPort: 3400
+              exposure: public
+              secure: true
+              protocol: https
+        attributes:
+          app.kubernetes.io/component: editor-runtime
+          app.kubernetes.io/part-of: idea-server.eclipse.org
+          controller.devfile.io/container-contribution: true
