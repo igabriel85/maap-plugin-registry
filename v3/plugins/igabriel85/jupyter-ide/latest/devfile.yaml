@@ -19,6 +19,7 @@ metadata:
             value: /projects
         mountSources: true
         memoryLimit: 512M
+        imagePullPolicy: IfNotPresent
         endpoints:
           - name: jupyter
             targetPort: 3100
